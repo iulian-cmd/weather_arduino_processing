@@ -169,7 +169,7 @@ int reading_light = analogRead(LDR);
           client.print("<div style='text-align: center;  padding: 2px;'>");
           client.print("<h4>Temperature is: </h4>");
           client.println("<input type='text' style='width:80px; text-align:center; margin-bottom:5px; font-weight: bold;' placeholder='");
-          client.print( temperature); 
+          client.print(temperature); 
           client.println(" C");
           client.println("'>");
           client.println("</div>");
