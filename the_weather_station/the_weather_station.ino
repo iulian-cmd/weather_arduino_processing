@@ -2,6 +2,7 @@
 const int LDR = A0;
 const int TMP36 = A1;
 const int ANEMOMETER = 2;
+int seuil = 600;
 
 //Anénomètre - Avec interruption
 unsigned long tempsFin;
@@ -150,7 +151,8 @@ int reading_light = analogRead(LDR);
           client.println("Refresh: 5");  // refresh the page automatically every 5 sec
           client.println();
           client.println("<!DOCTYPE HTML>");
-          client.println("<html>");
+          client.println("<html style='background-color:#ced7ee;'>");
+          client.println("<body style='display:flex; justify-content:center; align-items:center;'>");
           // output the value of each analog input pin
           // for (int analogChannel = 0; analogChannel < 6; analogChannel++) {
           //   int sensorReading = analogRead(analogChannel);
@@ -160,20 +162,45 @@ int reading_light = analogRead(LDR);
           //   client.print(sensorReading);
           //   client.println("<br />");
           // } 
-          client.print("Temperature is: ");
+
+          client.print("<div style='text-align: center; border-radius: 76px; background: linear-gradient(145deg, #dce6ff, #b9c2d6);\
+          box-shadow:  41px 41px 82px #b3bbcf, -41px -41px 82px #e9f3ff; width:300px; height: auto; display:flex; justify-content:center;\
+          align-items:center; flex-direction: column;'>");
+          client.print("<div style='text-align: center;  padding: 2px;'>");
+          client.print("<h4>Temperature is: </h4>");
+          client.println("<input type='text' style='width:80px; text-align:center; margin-bottom:5px; font-weight: bold;' placeholder='");
           client.print( temperature); 
           client.println(" C");
-          client.println("<br />");
+          client.println("'>");
+          client.println("</div>");
 
-          client.print("Luminosity is: ");
+          client.print("<div style='align: center;'>");
+          client.print("<h4>Luminosity is: </h4>");
+          client.println("<input type='text' style='width:80px; text-align:center; margin-bottom:5px; font-weight: bold;' placeholder='");
           client.println(reading_light);
+          client.println("'>");
           client.println("<br />");
+          if (reading_light >= seuil){
+              client.print("<p style='margin-top: 4px';>It's daylight</p>");
+          } else if (reading_light>= 300 && reading_light < seuil){
+              client.print("It's evening");
+          } else {
+              client.print("It's night");
+        }
+          
+          client.println("</div>");
 
-          client.print("Vitesse du vent = ");
+          client.print("<div style='text-align: center; padding: 2px 16px;'>");
+          client.print("<h4>Wind power is: </h4>");
+          client.println("<input type='text' style='width:80px; text-align:center; margin-bottom:5px; font-weight: bold;' placeholder='");
           client.print(vitesseVent);
           client.print(" km/h\n\r");
-          client.println("<br />");
+          client.println("'>");
+          client.println("</div>");
+          client.println("</div>");
+          client.println("</div>");
 
+          client.println("</body>");
           client.println("</html>");
           break;
         }
@@ -192,8 +219,4 @@ int reading_light = analogRead(LDR);
     client.stop();
     Serial.println("client disconnected");
   }
-
-
-
-
 }
